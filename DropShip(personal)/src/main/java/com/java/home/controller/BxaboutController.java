@@ -27,31 +27,7 @@ public class BxaboutController {
 	@Autowired
 	ArtistVo artistVo;
 	
-	@GetMapping("about")  // 회사소개
-	public String about(Model model) {
-		List<WorkVo> list = shopservice.selectWorkBest(6); // best작품 가져오기
-		List<WorkVo> newList = shopservice.selectWorkNew(); // new작품 가져오기
-		model.addAttribute("BestList", list);
-		model.addAttribute("newList", newList);
-		System.out.println("DB에서 받아온 BestList : " + list);
-		return "/home/bxabout/about";
-	}
-	
-	@GetMapping("faq")  // Q&A
-	public String faq() {
-		return "/home/bxabout/faq";
-	}
-	
-	@GetMapping("privacy")  // 개인정보처리방침
-	public String privacy() {
-		return "/home/bxabout/privacy";
-	}
-	
-	@GetMapping("term")  // 이용약관
-	public String term() {
-		return "/home/bxabout/term";
-	}
-	
+
 	@PostMapping("search") // 헤더에서 검색하기
 	public String search(@RequestParam("searchWord") String searchWord, Model model) {
 		System.out.println("wdwdwDW"+searchWord);
@@ -61,13 +37,5 @@ public class BxaboutController {
 		System.out.println();
 		return "home/bxabout/search";
 	}
-	
-	
-//	@GetMapping("searchNotice") //list 검색하기
-//	public String search(@RequestParam String search, @RequestParam String searchWord, Model model) {
-//		List<BoardNoticeVo> list = boardNoticeService.noticeBoardSearch(search, searchWord);
-//		model.addAttribute("list",list);
-//		return "home/bbs/notice";
-//	}
 	
 }

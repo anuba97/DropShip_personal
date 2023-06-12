@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.java.admin.service.BoardNoticeService;
+
 import com.java.home.service.BoardService;
 import com.java.vo.BoardNoticeVo;
 import com.java.vo.BoardVo;
@@ -29,8 +29,6 @@ import com.java.vo.CommentVo;
 @RequestMapping("bbs/")
 public class BbsController {
 	
-	@Autowired
-	BoardNoticeService boardNoticeService;
 	
 	@Autowired
 	BoardService boardService;
@@ -213,34 +211,5 @@ public class BbsController {
 	
 	
 	
-///////////////////////////////////////////////////공지사항 관련 내용/////////////////////////////////////////////////////////////
-	
-	@GetMapping("notice")  //공지사항 페이지 보기
-	public String notice(@RequestParam(defaultValue = "1") int page, Model model) {
-		Map<String, Object> map = boardNoticeService.selectNoticeList(page);
-		model.addAttribute("map", map);
-		model.addAttribute("page", page);
-		return "home/bbs/notice";
-	}
-	
-	@GetMapping("searchNotice") //list 검색하기
-	public String search(@RequestParam String search, @RequestParam String searchWord, Model model) {
-		List<BoardNoticeVo> list = boardNoticeService.noticeBoardSearch(search, searchWord);
-		model.addAttribute("list",list);
-		return "home/bbs/notice";
-	}
-	
-	@GetMapping("notice_view") //1개 게시글 가져오기
-	public String notice_view(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "1") int id, Model model) {
-		Map<String, Object> map = boardNoticeService.selectNoticeOne(id);
-		model.addAttribute("map", map); //map.boardVo
-		model.addAttribute("page", page);
-		model.addAttribute("id", id);
-		return "home/bbs/notice_view";
-	}
 
-	@GetMapping("support")  //공지사항 글쓰기
-	public String support() {
-		return "home/bbs/support";
-	}
 }//BbsController

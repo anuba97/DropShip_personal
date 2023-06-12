@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.java.admin.service.AdminOrderService;
 import com.java.admin.service.AdminService;
-import com.java.admin.service.BoardEventService;
-import com.java.admin.service.BoardNoticeService;
 import com.java.admin.service.DropshipMemberService;
 import com.java.home.service.BoardService;
 import com.java.home.service.MemberService;
@@ -38,21 +36,13 @@ public class AdminFrontController {
 	@Autowired
 	MemberService memberSerivce;
 	
-	@Autowired
-	BoardNoticeService boardNoticeService;
 	
 	@Autowired
 	AdminOrderService adminOrderService;
 	
 	@Autowired
-	BoardEventService boardEventService;
-	
-	@Autowired
 	BoardService boardService;
-	
-	@Autowired
-	MyShopService myShopService;
-	
+		
 	@Autowired
 	DropshipMemberService dropshipMemberService;
 	
@@ -62,73 +52,10 @@ public class AdminFrontController {
 	@Autowired
 	HttpSession session;
 	
-	@GetMapping("admin_login")//로그인 페이지 열기
-	public String admin_login(Model model) {
-		return "admin/admin_login";
-	}//admin_login
 	
-	@RequestMapping("admin_index")//어드민 메인 페이지 열기
-	public String admin_index(@RequestParam(defaultValue = "1") int page, Model model) {
-		Map<String, Object> map = dropshipMemberService.indexMemberList(page);
-		Map<String, Object> order = adminOrderService.selectOrderList(page);
-		
-		List<Order_MemberVo> order_MemberVoList = adminOrderService.selectOrderAll();	
-		
-		session.setAttribute("order_MemberVoList", order_MemberVoList);
-		
-		model.addAttribute("map", map);
-		model.addAttribute("order", order);
-		model.addAttribute("page", page);
-		return "admin/admin_index";
-	}
 	
-	@GetMapping("admin_tables")
-	public String admin_tables(Model model) {
-		return "admin/admin_tables";
-	}
 	
-	@GetMapping("admin_orderList")//어드민 주문 게시판 리스트 열기
-	public String admin_orderList(@RequestParam(defaultValue = "1") int page, Model model) {
-		Map<String, Object> map = adminOrderService.selectOrderList(page);
-		
-		Map<String, Integer> orderStatusCountMap = new HashMap<>();
-		List<Order_MemberVo> order_MemberVoList = adminOrderService.selectOrderAll();
-		for (Order_MemberVo order_MemberVo : order_MemberVoList) {
-			int order_status = order_MemberVo.getOrder_status();
-			if(orderStatusCountMap.containsKey(order_status + "")) {	// 이미 있으면 (int를 +""함으로써 String으로 변환시켜서 key에 저장
-				orderStatusCountMap.put(order_status + "", orderStatusCountMap.get(order_status+"") + 1);
-			} else {
-				orderStatusCountMap.put(order_status + "", 1);
-			}
-		}
-		model.addAttribute("orderStatusCountMap", orderStatusCountMap);
-		
-		
-		model.addAttribute("map", map);
-		model.addAttribute("page", page);
-		return "admin/admin_orderList";
-	}
-	
-	@GetMapping("admin_printingList")
-	public String admin_printingList(Model model) {
-		return "admin/admin_printingList";
-	}
-	
-	@GetMapping("admin_noticeBoardList")//어드민 공지 게시판 리스트 열기
-	public String admin_noticeBoardList(@RequestParam(defaultValue = "1") int page, Model model) {
-		Map<String, Object> map = boardNoticeService.selectNoticeList(page);
-		model.addAttribute("map", map);
-		model.addAttribute("page", page);
-		return "admin/admin_noticeBoardList";
-	}
-	
-	@GetMapping("admin_eventBoardList") //어드민 이벤트 리스트 열기
-	public String admin_eventBoardList(@RequestParam(defaultValue = "1") int page, Model model) {
-		Map<String, Object> map = boardEventService.selectEventList(page);
-		model.addAttribute("map", map);
-		model.addAttribute("page", page);
-		return "admin/admin_eventBoardList";
-	}
+
 	
 	@GetMapping("admin_freeBoardList") //어드민 일반 게시판 페이지 열기
 	public String admin_freeBoardList(@RequestParam(defaultValue = "1") int page, Model model) {
